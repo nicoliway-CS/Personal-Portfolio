@@ -25,3 +25,9 @@ Thumbs.db
 # Editor folders
 .vscode/
 .idea/
+
+# AI assistant files
+.claude/
+CONTENT_GUIDE.md
+CLAUDE.md
+design-system/

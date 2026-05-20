@@ -11,7 +11,8 @@ You are building a modern personal portfolio website for **Nicolas Liway**, a st
 **Tech stack:**
 - React + Vite
 - Tailwind CSS
-- JavaScript (NOT TypeScript unless strictly necessary)
+- JavaScript
+TypeScript (TSX components throughout)
 - Framer Motion for animations
 - React Router for navigation
 - GitHub Pages deployment
@@ -180,3 +181,74 @@ Place these TODOs throughout — on cards, sections, buttons, and the hero — s
 - Consistent Tailwind class ordering
 - All pages must look consistent — shared design tokens, no one-off styles
 - Mobile-first responsive design throughout
+
+---
+
+## Claude Assistant Prompt (use this to run a full-project audit and fixes)
+
+You are an expert JavaScript/React engineer and typescript with full access to the project's code. Your task is to analyze, test, and improve this Vite + React project (TypeScript enabled, Tailwind CSS, Framer Motion) and produce minimal, focused changes as patches. Be conservative: only modify files necessary to implement fixes or features.
+
+Project context
+- Project root: a Vite React app using Tailwind and TypeScript. Key files: `package.json`, `tailwind.config.js`, `tsconfig.json`, `vite.config.js`, `src/index.css`.
+- Important directories:
+  - `src/components/ui/` — shadcn-style UI components (existing: `liquid-glass-button.tsx`, added: `lamp.tsx`, `gooey-text-morphing.tsx`, `button.tsx`, `hero-block-shadcnui.tsx`)
+  - `src/pages/` — page routes (`Home.jsx`, `About.jsx`, `Projects.jsx`, `Experiences.jsx`, `Leadership.jsx`, `Passions.jsx`)
+  - `src/data/` — content: `portfolio.js` and new `page-heroes.js`
+- Key dependencies (from `package.json`): `react`, `react-dom`, `vite`, `tailwindcss`, `framer-motion`, `react-router-dom`, `react-icons`, `class-variance-authority`, `@radix-ui/react-slot`, `typescript`.
+- Commands you can run locally:
+  - Install: `npm ci`
+  - Dev server: `npm run dev`
+  - Build: `npm run build`
+  - Preview: `npm run preview`
+
+Tasks to perform
+1. Code audit
+  - Scan the repository for runtime or build errors, TypeScript issues, unused/wrong imports (especially icon libraries), and Tailwind usage problems.
+2. Run and verify
+  - Run `npm ci` then `npm run build` and report all errors/warnings and line references.
+3. Fixes and improvements
+  - Apply minimal, focused patches to fix any build/runtime errors (imports, props, missing exports, animation loops, layout overlap, router navigation).
+  - Ensure `src/components/ui` is used for shared UI components and that pages import them consistently with project aliases (e.g., `@/...` if configured).
+  - Make non-home pages use a centralized hero component — if logic is duplicated, extract into `src/components/ui`.
+  - Ensure animation loops cancel on unmount when needed, and layout reserve space so animated text doesn't overlap other copy.
+  - Keep Tailwind configuration consistent; add content globs if missing for `ts`/`tsx` files.
+4. New deliverables
+  - Provide a short summary of what you changed and why.
+  - For every change, produce a unified-diff style patch (git diff or file-by-file — clearly labeled with file paths and full file contents).
+  - List any new dependencies you added and why.
+  - Report commands to validate locally and a short checklist to confirm correctness.
+
+Constraints and style
+- Keep changes minimal and focused; don't refactor unrelated code.
+- Preserve existing project conventions (Tailwind utilities, minimal CSS overrides).
+- When adding icons: prefer `react-icons` if `lucide-react` doesn't export the named icon you used.
+- Avoid adding large new libraries unless necessary; prefer built-in or already-installed packages.
+- If TypeScript changes are required, prefer small, incremental updates and maintain `allowJs` behavior where relevant.
+- For patches: include full file content replacements (not just snippets), in a single unified diff per file.
+
+Expected output format
+1. Top-level summary (2–5 bullets) of what you fixed/added.
+2. Full patches for each modified file in unified-diff format. Example:
+--- a/path/to/file
++++ b/path/to/file
+@@ ...
+[diff content]
+3. Commands to run to verify (copy-paste ready).
+4. A short follow-up checklist and suggested next steps.
+
+Acceptance checklist
+- `npm ci` runs successfully.
+- `npm run build` completes with no errors.
+- Home hero shows gooey animated name without overlapping other text.
+- Non-home pages show the shared `HeroBlock` intro and still render their original content below.
+- No missing icon import errors (use `react-icons` fallbacks if needed).
+- Animation loops are cancelled on component unmount; no memory leaks.
+
+Notes & hints
+- Path alias: `vite.config.js` likely defines `@` alias to `./src`. Use that if present.
+- Tailwind: confirm `tailwind.config.js` includes `./src/**/*.{js,jsx,ts,tsx}` in content.
+- If you need me to run the produced patches, present them in a single reply; I will apply and run `npm run build` locally.
+
+If you understand, first produce a short plan of actions (3–6 steps) and then the patches.
+
+— end prompt —

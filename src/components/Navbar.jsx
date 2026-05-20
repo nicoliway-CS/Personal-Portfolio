@@ -1,4 +1,15 @@
-import { NavLink, useLocation } from 'react-router-dom';
+// ============================================================
+// NAVBAR — src/components/Navbar.jsx
+//
+// Sticky top navigation bar rendered on every page via PageLayout.
+// Uses the glass-panel style for the pill container, and LiquidButton
+// with variant="nav" (inactive) or variant="navActive" (current page)
+// for each link — so active state is handled via CVA, not CSS classes.
+//
+// Nav links are sourced from src/data/portfolio.js → navLinks[].
+// ============================================================
+
+import { useLocation } from 'react-router-dom';
 import { navLinks } from '../data/portfolio';
 import { LiquidButton } from './ui/liquid-glass-button.tsx';
 
@@ -7,30 +18,37 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-4 z-50 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-      {/* TODO: Replace with advanced UI component from 21st.dev */}
       <nav className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-full px-4 py-3 sm:px-5">
-        <NavLink to="/" className="text-sm font-semibold tracking-[0.22em] text-white uppercase">
-          Nicolas Liway
-        </NavLink>
 
-        <div className="flex flex-wrap items-center justify-end gap-2 text-sm">
-          {navLinks.map((link) => (
-            <LiquidButton
-              key={link.to}
-              variant="default"
-              size="sm"
-              to={link.to}
-              className={[
-                'rounded-full px-3 py-2 transition duration-200 hover:text-white',
-                location.pathname === link.to || (link.to !== '/' && location.pathname.startsWith(link.to))
-                  ? 'text-white'
-                  : 'text-slate-300',
-              ].join(' ')}
-            >
-              {link.label}
-            </LiquidButton>
-          ))}
+        {/* Logo */}
+        <LiquidButton
+          to="/"
+          variant={location.pathname === '/' ? 'navActive' : 'nav'}
+          size="sm"
+          className="font-display tracking-[0.22em] uppercase text-xs"
+        >
+          Nicolas Liway
+        </LiquidButton>
+
+        {/* Nav links */}
+        <div className="flex flex-wrap items-center justify-end gap-1.5">
+          {navLinks.map((link) => {
+            const isActive =
+              location.pathname === link.to ||
+              (link.to !== '/' && location.pathname.startsWith(link.to));
+            return (
+              <LiquidButton
+                key={link.to}
+                to={link.to}
+                variant={isActive ? 'navActive' : 'nav'}
+                size="sm"
+              >
+                {link.label}
+              </LiquidButton>
+            );
+          })}
         </div>
+
       </nav>
     </header>
   );

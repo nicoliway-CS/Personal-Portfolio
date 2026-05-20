@@ -1,51 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* ============================================================
+   GLOBAL STYLES — src/index.css
 
+   Load order:
+     1. Google Fonts import
+     2. Tailwind directives
+     3. Keyframe animations (used by liquid-glass-button)
+     4. Base styles (html, body, root, ::selection)
+     5. Liquid Glass Button CSS (the frosted effect system)
+     6. Tailwind @layer components (reusable class utilities)
+   ============================================================ */
+
+/* --- Google Fonts: Space Grotesk (display/headings) + Inter (body) ---
+   Space Grotesk is used for headings/titles for a futuristic geometric feel.
+   Inter is used for all body and UI text. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* --- Tailwind directives ---
+   @tailwind base     = Tailwind's CSS reset + base element styles
+   @tailwind components = @layer components {} blocks (see bottom)
+   @tailwind utilities  = all utility classes (flex, text-sm, etc.) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   scaleToggle / scaleToggle2 / scaleToggle3 — pulse the liquid
+   glass button sheen and orbs at slightly different speeds.
+   twinkle — gently fades the starfield layer in/out.
+   ============================================================ */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.65; }
+}
+
 @keyframes scaleToggle {
-  0% {
-    scale: 1 1;
-  }
-
-  50% {
-    scale: 1.1 1;
-  }
-
-  100% {
-    scale: 1 1;
-  }
+  0%   { scale: 1   1; }
+  50%  { scale: 1.1 1; }
+  100% { scale: 1   1; }
 }
 
 @keyframes scaleToggle2 {
-  0% {
-    scale: 1 1;
-  }
-
-  50% {
-    scale: 1.2 1;
-  }
-
-  100% {
-    scale: 1 1;
-  }
+  0%   { scale: 1   1; }
+  50%  { scale: 1.2 1; }
+  100% { scale: 1   1; }
 }
 
 @keyframes scaleToggle3 {
-  0% {
-    scale: 1 1;
-  }
-
-  50% {
-    scale: 1.1 1;
-  }
-
-  100% {
-    scale: 1 1;
-  }
+  0%   { scale: 1   1; }
+  50%  { scale: 1.1 1; }
+  100% { scale: 1   1; }
 }
 
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+/* Force dark color scheme so browser UI (scrollbars, etc.) matches */
 :root {
   color-scheme: dark;
 }
@@ -59,17 +71,35 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  background: #020617;
+  background: #020617;  /* slate-950 — matches bg-slate-950 in App.jsx */
 }
 
 #root {
   min-height: 100vh;
 }
 
+/* Text selection highlight color — cyan tint matching the site palette */
 ::selection {
   background: rgba(56, 189, 248, 0.35);
   color: #f8fafc;
 }
+
+/* ============================================================
+   LIQUID GLASS BUTTON SYSTEM
+   These CSS classes power the frosted glass look on all buttons
+   and the navbar. They are applied in liquid-glass-button.tsx
+   and also used directly in Footer.jsx (icon buttons).
+
+   How it works:
+     .liquid-glass-button       = shared base (backdrop-blur, border, box-shadow)
+     .liquid-glass-button::before = inner gradient highlight
+     .liquid-glass-button::after  = radial light orb overlay
+     --primary / --secondary / --nav / --nav-active / --icon = variant overrides
+
+   The .liquid-glass-button__sheen and __orb elements are child
+   <span> elements injected inside each button for the animated
+   highlight sweep and floating orb effects.
+   ============================================================ */
 
 .liquid-glass-button {
   position: relative;
@@ -85,6 +115,7 @@ body {
     0 14px 40px rgba(15, 23, 42, 0.18);
 }
 
+/* Pseudo-element base setup */
 .liquid-glass-button::before,
 .liquid-glass-button::after {
   content: '';
@@ -94,6 +125,7 @@ body {
   transition: opacity 260ms ease, transform 360ms ease;
 }
 
+/* ::before — diagonal gradient highlight (top-left corner shine) */
 .liquid-glass-button::before {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 32%),
@@ -101,6 +133,7 @@ body {
   opacity: 0.55;
 }
 
+/* ::after — radial light orbs (top-left white + top-right cyan + bottom purple) */
 .liquid-glass-button::after {
   background:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 28%),
@@ -110,6 +143,7 @@ body {
   mix-blend-mode: screen;
 }
 
+/* --- Hover state: shift the highlight across the button surface --- */
 .liquid-glass-button:hover::before {
   transform: translateX(6%) skewX(-10deg);
   opacity: 0.9;
@@ -120,6 +154,7 @@ body {
   opacity: 0.8;
 }
 
+/* --- Variant: primary CTA button --- */
 .liquid-glass-button--primary {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
@@ -137,12 +172,14 @@ body {
     0 18px 48px rgba(34, 211, 238, 0.08);
 }
 
+/* --- Variant: secondary button --- */
 .liquid-glass-button--secondary {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
     rgba(15, 23, 42, 0.04);
 }
 
+/* --- Variant: navbar link button (default inactive state) --- */
 .liquid-glass-button--nav {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
@@ -153,6 +190,7 @@ body {
     0 10px 28px rgba(15, 23, 42, 0.1);
 }
 
+/* --- Variant: navbar link button (active / current route) --- */
 .liquid-glass-button--nav-active {
   border-color: rgba(125, 211, 252, 0.22);
   background:
@@ -165,6 +203,7 @@ body {
     0 12px 26px rgba(34, 211, 238, 0.08);
 }
 
+/* --- Variant: circular icon button (used in Footer.jsx) --- */
 .liquid-glass-button--icon {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
@@ -172,6 +211,8 @@ body {
     0 10px 28px rgba(15, 23, 42, 0.22);
 }
 
+/* --- Sheen: animated highlight sweep across the button surface ---
+   Positioned as a child element (.liquid-glass-button__sheen) */
 .liquid-glass-button__sheen,
 .liquid-glass-button__orb {
   position: absolute;
@@ -188,6 +229,8 @@ body {
   animation: scaleToggle 7s ease-in-out infinite;
 }
 
+/* --- Orbs: small blurred circles that float inside the button ---
+   .--one is white (top-right), .--two is cyan (bottom-left) */
 .liquid-glass-button__orb {
   border-radius: 9999px;
   filter: blur(1px);
@@ -212,15 +255,59 @@ body {
   animation: scaleToggle3 9s ease-in-out infinite;
 }
 
+/* ============================================================
+   STARFIELD BACKGROUND
+   Three tiled layers of tiny dots at different scales/offsets.
+   The mismatched tile sizes prevent visible repetition.
+   Paired with the twinkle keyframe for a subtle living feel.
+   ============================================================ */
+
+.starfield {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.30) 1px, transparent 1px),
+    radial-gradient(circle, rgba(180, 215, 255, 0.45) 1.5px, transparent 1.5px);
+  background-size: 160px 130px, 90px 100px, 260px 195px;
+  background-position: 0 0, 42px 57px, 135px 48px;
+  animation: twinkle 9s ease-in-out infinite;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Disable CSS keyframe animations for users who prefer it.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-button__sheen,
+  .liquid-glass-button__orb,
+  .starfield {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   TAILWIND COMPONENT UTILITIES
+   Reusable class combos that can be used like a single class
+   in any component via className="glass-panel" etc.
+   ============================================================ */
+
 @layer components {
+  /* glass-panel: the frosted glass card / panel look used by
+     Navbar, Footer, and Card components. */
   .glass-panel {
     @apply border border-white/10 bg-white/5 shadow-glass backdrop-blur-xl;
   }
 
+  /* section-title: large section headings using Space Grotesk display font */
   .section-title {
-    @apply text-3xl font-semibold tracking-tight text-white md:text-4xl;
+    @apply font-display text-3xl font-semibold tracking-tight md:text-4xl;
+    background: linear-gradient(135deg, #e8f8ff 0%, #ffffff 45%, #ddd0f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
+  /* section-subtitle: paragraph text under section headings */
   .section-subtitle {
     @apply max-w-2xl text-sm leading-7 text-slate-300 md:text-base;
   }
