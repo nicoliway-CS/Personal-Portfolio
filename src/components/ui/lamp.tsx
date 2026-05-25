@@ -43,14 +43,24 @@ export const LampContainer = ({
       >
 
         {/*
-          Left conic beam.
-          mask-image fades the bottom 40% to transparent so the beam base
-          doesn't appear as a hard horizontal edge against the background.
+          clipPath: inset() reveals each element from the center outward without
+          touching layout dimensions. Because clipPath is not a CSS transform
+          property, Framer Motion animates it independently and never overwrites
+          the transform value — so every Tailwind translate/scale class is intact.
+
+          Left beam: inset clips from the right (center of page) outward to the left.
+          Right beam: inset clips from the left (center of page) outward to the right.
+          Lamp line: inset clips symmetrically from both sides, drawing center-out.
+          Glows:     opacity-only so their blur edges never create a hard clip line.
         */}
+
+        {/* Left conic beam — opacity fade only. clipPath on a conic gradient
+            creates a hard moving edge across the bright center, which looks
+            like a beam sliding rather than light spreading. */}
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 1, width: "30rem" }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
           style={{
             backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
             maskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
@@ -61,9 +71,9 @@ export const LampContainer = ({
 
         {/* Right conic beam */}
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 1, width: "30rem" }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
           style={{
             backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
             maskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
@@ -72,28 +82,27 @@ export const LampContainer = ({
           className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-cyan-500 text-white [--conic-position:from_290deg_at_center_top]"
         />
 
-        {/*
-          Wide ambient bloom.
-          rounded-full turns the div into an oval shape, so CSS blur fades
-          naturally from the curved edge — no rectangular border is visible.
-        */}
-        <div
+        {/* Wide ambient bloom — fades in; scale-125 is CSS-only, no transform conflict */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
           className="absolute inset-auto z-30 h-44 w-[30rem] -translate-y-4 scale-125 rounded-full bg-cyan-500/20 blur-3xl"
         />
 
-        {/* Tight inner glow — brighter, narrower, animates in */}
+        {/* Tight inner glow — fades in; -translate-y-24 and scale-125 are CSS-only */}
         <motion.div
-          initial={{ width: "8rem" }}
-          whileInView={{ width: "16rem" }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
           className="absolute inset-auto z-30 h-36 w-64 -translate-y-24 scale-125 rounded-full bg-cyan-400/55 blur-2xl"
         />
 
-        {/* Lamp line */}
+        {/* Lamp line — draws from center outward; -translate-y-28 is CSS-only */}
         <motion.div
-          initial={{ width: "15rem" }}
-          whileInView={{ width: "30rem" }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          initial={{ clipPath: "inset(0% 50% 0% 50%)" }}
+          whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+          transition={{ delay: 0.1, duration: 0.6, ease: "easeInOut" }}
           className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-28 bg-cyan-400"
         />
 
