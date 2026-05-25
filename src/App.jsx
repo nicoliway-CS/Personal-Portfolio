@@ -28,7 +28,6 @@ import About from './pages/About';
 import Leadership from './pages/Leadership';
 import Experiences from './pages/Experiences';
 import Projects from './pages/Projects';
-import Passions from './pages/Passions';
 
 // --- Page transition animation variants ---
 // Each page fades in from slightly below, fades out upward.
@@ -83,7 +82,6 @@ export default function App() {
           <Route path="/leadership" element={<PageLayout><AnimatedRoute><Leadership /></AnimatedRoute></PageLayout>} />
           <Route path="/experiences" element={<PageLayout><AnimatedRoute><Experiences /></AnimatedRoute></PageLayout>} />
           <Route path="/projects" element={<PageLayout><AnimatedRoute><Projects /></AnimatedRoute></PageLayout>} />
-          <Route path="/passions" element={<PageLayout><AnimatedRoute><Passions /></AnimatedRoute></PageLayout>} />
 
           {/* Catch-all: any unknown URL redirects to home */}
           <Route path="*" element={<Navigate to="/" replace />} />

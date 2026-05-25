@@ -201,6 +201,7 @@ export function LiquidButton({
         href={href}
         target="_blank"
         rel="noreferrer"
+        {...(props as object)}
       >
         {innerContent}
       </a>

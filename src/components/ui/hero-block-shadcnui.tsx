@@ -64,29 +64,45 @@ export function HeroBlock({
           transition={{ duration: 0.6 }}
           className="w-full"
         >
-          {/* Eyebrow label */}
+          {/* Eyebrow — glass pill badge */}
           {eyebrow ? (
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.35em] text-cyan-200/80">
-              {eyebrow}
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/[0.07] px-4 py-1.5"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
+              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-300/90">
+                {eyebrow}
+              </span>
+            </motion.div>
           ) : null}
 
-          {/* Page headline */}
+          {/* Page headline — text-balance lets long titles wrap evenly */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="mb-6 font-display text-5xl font-bold tracking-tight md:text-7xl bg-gradient-to-br from-white via-cyan-100 to-violet-200 bg-clip-text text-transparent"
+            className="mb-5 font-display text-4xl font-bold tracking-tight md:text-6xl bg-gradient-to-br from-white via-cyan-100 to-violet-200 bg-clip-text text-transparent text-balance"
           >
             {title}
           </motion.h1>
+
+          {/* Decorative divider line between headline and description */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ delay: 0.38, duration: 0.5, ease: 'easeOut' }}
+            className="mx-auto mb-6 h-px w-16 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent"
+          />
 
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mx-auto mb-8 max-w-3xl text-lg text-slate-300 md:text-2xl"
+            transition={{ delay: 0.45, duration: 0.6 }}
+            className="mx-auto mb-8 max-w-2xl text-base text-slate-300 md:text-xl leading-relaxed"
           >
             {description}
           </motion.p>

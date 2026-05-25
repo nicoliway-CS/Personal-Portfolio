@@ -19,7 +19,6 @@ export const navLinks = [
   { to: '/leadership',  label: 'Leadership' },
   { to: '/experiences', label: 'Experiences' },
   { to: '/projects',    label: 'Projects' },
-  { to: '/passions',    label: 'Passions' },
 ];
 
 // --- Home page quick-nav buttons ---
@@ -29,7 +28,7 @@ export const quickNav = [
   { to: '/about',      label: 'About' },
   { to: '/projects',   label: 'Projects' },
   { to: '/leadership', label: 'Leadership' },
-  { to: '/passions',   label: 'Passions' },
+  { to: '/experiences', label: 'Experiences' },
 ];
 
 // ============================================================
@@ -145,13 +144,24 @@ export const projects = [
 // PASSIONS PAGE CONTENT
 // ============================================================
 
-// Each string becomes a Card on the Passions page.
-// Write one passion per entry — keep them personal and specific.
-// PLACEHOLDER: Replace with things that actually drive you
+// Each entry becomes a Card in the Passions section on the About page.
+// Fields: title (string), description (string)
 export const passions = [
-  'Designing interfaces that feel calm, modern, and deliberate',
-  'Learning how good products balance clarity and personality',
-  'Exploring ideas that connect creativity with real-world utility',
+  {
+    title: 'Taekwondo',
+    description:
+      "I've been doing Taekwondo since I was a kid, over 8 years of competing at the state, national, and international level. I hold a 3rd Degree Poom Black Belt from Kukkiwon, which is the governing body for Taekwondo worldwide. Competing has taken me all over. I've been a Florida State Champion multiple times between 2014 and 2020 in both sparring and poomsae, made the AAU USA National Team twice, and picked up gold medals at international opens in Mexico, Canada, and Costa Rica. Honestly, some of my best memories are from those trips. The part I'm most proud of is doing all of this while keeping up with school full-time. It taught me a lot about discipline and managing my time, lessons I carry into everything else I do.",
+  },
+  {
+    title: 'Soccer',
+    description:
+      "I've been playing soccer since I could walk, it's one of those things that just never left. I started out recreational, the way most kids do, and gradually worked my way up to club and travel teams through middle and high school. Eventually I earned the captain role, which meant a lot to me. More than the competition though, soccer has always been my reset button. When school, training, and everything else piled up, getting on the field was how I came back to myself. It still is. These days I play intramurals at UF. It's a different vibe than the competitive stuff, but honestly? I love it just as much. Some things you just never stop doing.",
+  },
+  {
+    title: 'Teaching & Tutoring',
+    description:
+    "Getting injured in the middle of high school was honestly one of the harder things I've gone through. I'd built so much of my identity around competing, and suddenly that was gone. I had to figure out what to do with all that time and energy. Teaching kind of found me. I started coaching Taekwondo, it made sense, it was the world I knew, and I realized pretty quickly that I genuinely loved being on that side of it. From there I got into coding instruction, and one thing led to another until I launched my own STEM tutoring business covering math, computer science, and SAT prep. It's become one of my biggest passions. There's something about taking something you know well and helping someone else click with it for the first time, that feeling doesn't get old."
+  },
 ];
 
 // ============================================================

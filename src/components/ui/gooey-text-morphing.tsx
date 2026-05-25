@@ -143,7 +143,7 @@ export function GooeyText({
         <span
           ref={text1Ref}
           className={cn(
-            "absolute inline-block select-none text-center text-5xl font-semibold tracking-tight text-transparent md:text-7xl lg:text-8xl font-display",
+            "absolute inline-block select-none text-center text-4xl font-semibold tracking-tight text-transparent md:text-6xl lg:text-7xl font-display",
             "bg-gradient-to-br from-cyan-200 via-white to-purple-300 bg-clip-text",
             textClassName,
           )}
@@ -151,7 +151,7 @@ export function GooeyText({
         <span
           ref={text2Ref}
           className={cn(
-            "absolute inline-block select-none text-center text-5xl font-semibold tracking-tight text-transparent md:text-7xl lg:text-8xl font-display",
+            "absolute inline-block select-none text-center text-4xl font-semibold tracking-tight text-transparent md:text-6xl lg:text-7xl font-display",
             "bg-gradient-to-br from-cyan-200 via-white to-purple-300 bg-clip-text",
             textClassName,
           )}

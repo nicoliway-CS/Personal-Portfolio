@@ -27,7 +27,7 @@ export default function Home() {
   return (
     // LampContainer provides the spotlight background and vertically
     // centers its children inside the beam area.
-    <LampContainer className="min-h-[calc(100vh-220px)] rounded-[2rem] border border-white/10 shadow-glass">
+    <LampContainer className="min-h-[calc(100vh-220px)]">
 
       {/* Fade-in wrapper for the hero content */}
       <motion.div

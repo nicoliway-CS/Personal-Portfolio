@@ -17,30 +17,15 @@
 // See CONTENT_GUIDE.md for the full fill-in guide.
 // ============================================================
 
-import { ArrowDown, Mail } from 'lucide-react';
-import { FiGithub, FiLinkedin } from 'react-icons/fi';
-
-import { socialLinks } from './portfolio';
-
-// Shared social icons array — reused on every page hero
-const heroSocials = [
-  { icon: FiGithub,   href: socialLinks.github,   label: 'GitHub' },
-  { icon: FiLinkedin, href: socialLinks.linkedin,  label: 'LinkedIn' },
-  { icon: Mail,       href: socialLinks.email,     label: 'Email' },
-];
-
 export const pageHeroes = {
 
   // --- About page hero ---
   // PLACEHOLDER: Replace title and description with your real bio summary
   about: {
     eyebrow: 'About',
-    title: 'A short bio, a focused skill set, and clear interests.',
+    title: 'Computer Engineering University of Florida',
     description:
-      'PLACEHOLDER: Replace this with a real bio that introduces Nicolas in one or two concise paragraphs.',
-    primaryAction:   { label: 'Get in Touch', href: socialLinks.email, icon: Mail },
-    secondaryAction: { label: 'View Projects', to: '/projects', icon: ArrowDown, variant: 'outline' },
-    socials: heroSocials,
+      'Building intelligent systems at the intersection of hardware, software, and AI/ML.',
   },
 
   // --- Leadership page hero ---
@@ -50,21 +35,14 @@ export const pageHeroes = {
     title: 'Roles, clubs, activities, and initiatives.',
     description:
       'PLACEHOLDER: Replace these entries with your real leadership history and measurable outcomes.',
-    primaryAction:   { label: 'Get in Touch', href: socialLinks.email, icon: Mail },
-    secondaryAction: { label: 'About', to: '/about', icon: ArrowDown, variant: 'outline' },
-    socials: heroSocials,
   },
 
   // --- Experiences page hero ---
-  // This one is intentionally explanatory — you can keep this or customize it
   experiences: {
     eyebrow: 'Experiences',
     title: 'Internships and work experience only.',
     description:
       'This page intentionally excludes projects so the portfolio stays organized and easy to scan.',
-    primaryAction:   { label: 'Get in Touch', href: socialLinks.email, icon: Mail },
-    secondaryAction: { label: 'Projects', to: '/projects', icon: ArrowDown, variant: 'outline' },
-    socials: heroSocials,
   },
 
   // --- Projects page hero ---
@@ -74,20 +52,5 @@ export const pageHeroes = {
     title: 'A grid of polished project cards.',
     description:
       'PLACEHOLDER: Replace each sample with your real projects, real repo links, and real demo URLs.',
-    primaryAction:   { label: 'Get in Touch', href: socialLinks.email, icon: Mail },
-    secondaryAction: { label: 'Leadership', to: '/leadership', icon: ArrowDown, variant: 'outline' },
-    socials: heroSocials,
-  },
-
-  // --- Passions page hero ---
-  // PLACEHOLDER: Update description to reflect what actually drives you
-  passions: {
-    eyebrow: 'Passions',
-    title: 'Creative motivations, hobbies, and non-technical interests.',
-    description:
-      'PLACEHOLDER: Replace these with the things that actually drive you creatively.',
-    primaryAction:   { label: 'Get in Touch', href: socialLinks.email, icon: Mail },
-    secondaryAction: { label: 'About', to: '/about', icon: ArrowDown, variant: 'outline' },
-    socials: heroSocials,
   },
 };
