@@ -5,7 +5,7 @@
 // Every page reads from this file. To update the site content,
 // edit the values below.
 //
-// See CONTENT_GUIDE.md in the project root for a step-by-step
+// See the "Editing your content" section of README.md for a
 // walkthrough of every PLACEHOLDER you need to fill in.
 // ============================================================
 
@@ -169,7 +169,7 @@ export const passions = [
 // ============================================================
 
 // PLACEHOLDER: Replace every value below with your real links.
-// See CONTENT_GUIDE.md for instructions.
+// See README.md ("Editing your content") for instructions.
 export const socialLinks = {
   github:   'https://github.com/your-handle',              // PLACEHOLDER
   linkedin: 'https://www.linkedin.com/in/your-handle',     // PLACEHOLDER

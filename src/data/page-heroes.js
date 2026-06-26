@@ -14,7 +14,7 @@
 //
 // To update a page's hero text, find its key below and edit the
 // title / description fields. Social links are pulled from portfolio.js.
-// See CONTENT_GUIDE.md for the full fill-in guide.
+// See README.md ("Editing your content") for the full fill-in guide.
 // ============================================================
 
 export const pageHeroes = {

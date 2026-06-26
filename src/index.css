@@ -4,10 +4,15 @@
    Load order:
      1. Google Fonts import
      2. Tailwind directives
-     3. Keyframe animations (used by liquid-glass-button)
+     3. Keyframe animations (starfield twinkle)
      4. Base styles (html, body, root, ::selection)
-     5. Liquid Glass Button CSS (the frosted effect system)
-     6. Tailwind @layer components (reusable class utilities)
+     5. Starfield background
+     6. Reduced-motion overrides
+     7. Tailwind @layer components (reusable class utilities)
+
+   NOTE: The frosted-glass button look is implemented entirely in
+   src/components/ui/liquid-glass-button.tsx using Tailwind utility
+   classes (RIM_* box-shadows) — there is no button CSS in this file.
    ============================================================ */
 
 /* --- Google Fonts: Space Grotesk (display/headings) + Inter (body) ---
@@ -25,32 +30,12 @@
 
 /* ============================================================
    KEYFRAME ANIMATIONS
-   scaleToggle / scaleToggle2 / scaleToggle3 — pulse the liquid
-   glass button sheen and orbs at slightly different speeds.
    twinkle — gently fades the starfield layer in/out.
    ============================================================ */
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.45; }
   50%       { opacity: 0.65; }
-}
-
-@keyframes scaleToggle {
-  0%   { scale: 1   1; }
-  50%  { scale: 1.1 1; }
-  100% { scale: 1   1; }
-}
-
-@keyframes scaleToggle2 {
-  0%   { scale: 1   1; }
-  50%  { scale: 1.2 1; }
-  100% { scale: 1   1; }
-}
-
-@keyframes scaleToggle3 {
-  0%   { scale: 1   1; }
-  50%  { scale: 1.1 1; }
-  100% { scale: 1   1; }
 }
 
 /* ============================================================
@@ -85,181 +70,11 @@ body {
 }
 
 /* ============================================================
-   LIQUID GLASS BUTTON SYSTEM
-   These CSS classes power the frosted glass look on all buttons
-   and the navbar. They are applied in liquid-glass-button.tsx
-   and also used directly in Footer.jsx (icon buttons).
-
-   How it works:
-     .liquid-glass-button       = shared base (backdrop-blur, border, box-shadow)
-     .liquid-glass-button::before = inner gradient highlight
-     .liquid-glass-button::after  = radial light orb overlay
-     --primary / --secondary / --nav / --nav-active / --icon = variant overrides
-
-   The .liquid-glass-button__sheen and __orb elements are child
-   <span> elements injected inside each button for the animated
-   highlight sweep and floating orb effects.
-   ============================================================ */
-
-.liquid-glass-button {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
-  transform: translateZ(0);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -18px 32px rgba(15, 23, 42, 0.08),
-    0 14px 40px rgba(15, 23, 42, 0.18);
-}
-
-/* Pseudo-element base setup */
-.liquid-glass-button::before,
-.liquid-glass-button::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transition: opacity 260ms ease, transform 360ms ease;
-}
-
-/* ::before — diagonal gradient highlight (top-left corner shine) */
-.liquid-glass-button::before {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01) 42%, rgba(255, 255, 255, 0.04));
-  opacity: 0.55;
-}
-
-/* ::after — radial light orbs (top-left white + top-right cyan + bottom purple) */
-.liquid-glass-button::after {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.12), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.08), transparent 32%);
-  opacity: 0.45;
-  mix-blend-mode: screen;
-}
-
-/* --- Hover state: shift the highlight across the button surface --- */
-.liquid-glass-button:hover::before {
-  transform: translateX(6%) skewX(-10deg);
-  opacity: 0.9;
-}
-
-.liquid-glass-button:hover::after {
-  transform: scale(1.03);
-  opacity: 0.8;
-}
-
-/* --- Variant: primary CTA button --- */
-.liquid-glass-button--primary {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
-    rgba(15, 23, 42, 0.06);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -22px 35px rgba(15, 23, 42, 0.08),
-    0 16px 42px rgba(15, 23, 42, 0.16);
-}
-
-.liquid-glass-button--primary:hover {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -22px 35px rgba(15, 23, 42, 0.06),
-    0 18px 48px rgba(34, 211, 238, 0.08);
-}
-
-/* --- Variant: secondary button --- */
-.liquid-glass-button--secondary {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
-    rgba(15, 23, 42, 0.04);
-}
-
-/* --- Variant: navbar link button (default inactive state) --- */
-.liquid-glass-button--nav {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
-    rgba(15, 23, 42, 0.02);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -12px 18px rgba(15, 23, 42, 0.05),
-    0 10px 28px rgba(15, 23, 42, 0.1);
-}
-
-/* --- Variant: navbar link button (active / current route) --- */
-.liquid-glass-button--nav-active {
-  border-color: rgba(125, 211, 252, 0.22);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
-    rgba(8, 47, 73, 0.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -12px 18px rgba(15, 23, 42, 0.06),
-    0 0 0 1px rgba(56, 189, 248, 0.05),
-    0 12px 26px rgba(34, 211, 238, 0.08);
-}
-
-/* --- Variant: circular icon button (used in Footer.jsx) --- */
-.liquid-glass-button--icon {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -12px 20px rgba(15, 23, 42, 0.16),
-    0 10px 28px rgba(15, 23, 42, 0.22);
-}
-
-/* --- Sheen: animated highlight sweep across the button surface ---
-   Positioned as a child element (.liquid-glass-button__sheen) */
-.liquid-glass-button__sheen,
-.liquid-glass-button__orb {
-  position: absolute;
-  pointer-events: none;
-}
-
-.liquid-glass-button__sheen {
-  inset: 12% 8% auto;
-  height: 42%;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.52), transparent);
-  opacity: 0.35;
-  transform: translateX(-52%) skewX(-18deg);
-  animation: scaleToggle 7s ease-in-out infinite;
-}
-
-/* --- Orbs: small blurred circles that float inside the button ---
-   .--one is white (top-right), .--two is cyan (bottom-left) */
-.liquid-glass-button__orb {
-  border-radius: 9999px;
-  filter: blur(1px);
-  opacity: 0.7;
-  animation: scaleToggle2 8s ease-in-out infinite;
-}
-
-.liquid-glass-button__orb--one {
-  top: 10%;
-  right: 14%;
-  width: 18px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.26);
-}
-
-.liquid-glass-button__orb--two {
-  bottom: 12%;
-  left: 16%;
-  width: 12px;
-  height: 12px;
-  background: rgba(34, 211, 238, 0.24);
-  animation: scaleToggle3 9s ease-in-out infinite;
-}
-
-/* ============================================================
    STARFIELD BACKGROUND
    Three tiled layers of tiny dots at different scales/offsets.
    The mismatched tile sizes prevent visible repetition.
    Paired with the twinkle keyframe for a subtle living feel.
+   Applied to a full-screen layer in App.jsx (.starfield).
    ============================================================ */
 
 .starfield {
@@ -278,8 +93,6 @@ body {
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .liquid-glass-button__sheen,
-  .liquid-glass-button__orb,
   .starfield {
     animation: none;
   }

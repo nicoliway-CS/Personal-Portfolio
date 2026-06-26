@@ -8,7 +8,6 @@
 // Used by:
 //   Home.jsx     — quick-nav buttons below the hero
 //   Projects.jsx — "Repo" and "Live Demo" buttons on project cards
-//   Experiences, Leadership, Passions — card action buttons
 //
 // Props:
 //   to        — internal route (React Router <Link>)
